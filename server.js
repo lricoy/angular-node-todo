@@ -9,10 +9,17 @@
 
 	mongoose.connect('mongodb://localhost:27017')
 
+	var allowCrossDomain = function(req, res, next) {
+	  res.header("Access-Control-Allow-Origin", "*");
+	  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	  next();
+	};
+
 	app.configure(function() {
 		app.use(express.static(__dirname + '/public'));				// set the static file location /public/img will be /img for users
 		app.use(express.logger('dev'));								// log every request to the console
 		app.use(express.bodyParser());								// pull information from html in POST
+		app.use(allowCrossDomain);									// allow cross domain requests
 		app.use(express.methodOverride());							// simulate DELETE and PUT
 	});
 
